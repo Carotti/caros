@@ -2,5 +2,6 @@
 *.o
 *.iso
 
-isodir/
 bin/
+obj/
+iso/
