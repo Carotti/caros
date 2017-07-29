@@ -1,7 +1,3 @@
-*.bin
-*.o
 *.iso
-
-bin/
-obj/
-iso/
+isodir
+sysroot
