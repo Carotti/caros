@@ -3,22 +3,22 @@
 .func check_a20
 check_a20:
         pushf
-        push %ds
         push %es
         push %di
         push %si
+        push %ds
 
         cli
 
         # es:di = 0000:0500
-        mov $0, %ax
+        xor %ax, %ax
         mov %ax, %es
         mov $0x0500, %di
 
-        # ds:si = ffff:0510
+        # ds:si = ffff:0500
         mov 0xffff, %ax
         mov %ax, %ds
-        mov $0x0510, %si
+        mov $0x0500, %si
 
         # Save es:di on stack
         movb %es:(%di), %al
@@ -52,11 +52,13 @@ check_a20:
         mov $1, %ax
 
     check_a20__exit:
+
+        pop %ds
         pop %si
         pop %di
         pop %es
-        pop %ds
         popf
+
         ret
 .endfunc
 
@@ -149,6 +151,9 @@ wait_8042_command:
 enable_a20:
         # Check if A20 is already enabled
         call check_a20
+
+        ret
+
         cmp $0, %ax
         jne enable_a20__exit
 
