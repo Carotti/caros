@@ -3,10 +3,10 @@
 .func check_a20
 check_a20:
         pushf
+        push %ds
         push %es
         push %di
         push %si
-        push %ds
 
         cli
 
@@ -16,8 +16,8 @@ check_a20:
         mov $0x0500, %di
 
         # ds:si = ffff:0500
-        mov 0xffff, %ax
-        mov %ax, %ds
+        mov $0xffff, %ax
+        mov %ax, %ds # TODO: something not good happening here
         mov $0x0500, %si
 
         # Save es:di on stack
@@ -53,10 +53,10 @@ check_a20:
 
     check_a20__exit:
 
-        pop %ds
         pop %si
         pop %di
         pop %es
+        pop %ds
         popf
 
         ret
