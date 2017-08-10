@@ -37,9 +37,6 @@ $(ARCHDIR)/crtbegin.o \
 $(KERNEL_OBJS) \
 $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
-$(ARCHDIR)/gdt.o \
-$(ARCHDIR)/gdt_flush.o \
-
 
 LINK_LIST=\
 $(LDFLAGS) \
@@ -49,8 +46,6 @@ $(KERNEL_OBJS) \
 $(LIBS) \
 $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
-$(ARCHDIR)/gdt.o \
-$(ARCHDIR)/gdt_flush.o \
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S

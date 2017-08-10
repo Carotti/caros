@@ -13,7 +13,8 @@ gdt_flush:
         mov %ax, %gs
         mov %ax, %ss
 
-        ljmp flush2
+        ljmp $0x8, $flush2
 
     flush2:
         ret
+.endfunc

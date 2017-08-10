@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#define GDT_SIZE 3
+
 struct gdt_entry
 {
     uint16_t limit_low;
@@ -19,7 +21,7 @@ struct gdt_ptr
     uint32_t base;
 } __attribute__((packed));
 
-struct gdt_entry gdt[3];
+struct gdt_entry gdt[GDT_SIZE];
 struct gdt_ptr gp;
 
 extern void gdt_flush();

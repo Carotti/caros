@@ -15,7 +15,7 @@ void gdt_set_gate(int i, uint32_t base, uint32_t limit, uint8_t access, uint8_t 
 
 void gdt_install()
 {
-    gp.limit = (sizeof(struct gdt_entry) * 3) - 1;
+    gp.limit = (sizeof(struct gdt_entry) * GDT_SIZE) - 1;
     gp.base = (uint32_t)&gdt;
 
     // NULL descriptor
