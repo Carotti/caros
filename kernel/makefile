@@ -30,7 +30,6 @@ LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)
 KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
 kernel/kernel.o \
-kernel/idt.o \
 
 OBJS=\
 $(ARCHDIR)/crti.o \
@@ -38,10 +37,6 @@ $(ARCHDIR)/crtbegin.o \
 $(KERNEL_OBJS) \
 $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
-$(ARCHDIR)/gdt.o \
-$(ARCHDIR)/idt.o \
-$(ARCHDIR)/a20.o \
-$(ARCHDIR)/init.o \
 
 
 LINK_LIST=\
@@ -52,10 +47,6 @@ $(KERNEL_OBJS) \
 $(LIBS) \
 $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
-$(ARCHDIR)/gdt.o \
-$(ARCHDIR)/idt.o \
-$(ARCHDIR)/a20.o \
-$(ARCHDIR)/init.o \
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S
