@@ -1,5 +1,9 @@
 # Code for testing and enabling the A20 address line
 
+# Used for if no a20 line could be enabled (CPU not supported in this case)
+.globl kernel_cpu_panic
+
+# Returns 1 if a20 line is enabled, 0 otherwise
 .func check_a20
 check_a20:
         pushf
@@ -13,40 +17,32 @@ check_a20:
         # es:di = 0000:0500
         xor %ax, %ax
         mov %ax, %es
+
+        not %ax
+        # mov %ax, %ds
+
         mov $0x0500, %di
+        mov $0x0510, %si
 
-        # ds:si = ffff:0500
-        mov $0xffff, %ax
-        mov %ax, %ds # TODO: something not good happening here
-        mov $0x0500, %si
-
-        # Save es:di on stack
-        movb %es:(%di), %al
+        mov %es:(%di), %al
         push %ax
 
-        # Save ds:si on stack
-        movb %ds:(%si), %al
+        mov %ds:(%si), %al
         push %ax
 
-        # es:di = 0x00
         movb $0x00, %es:(%di)
+        movb $0xff, %ds:(%si)
 
-        # ds:di = 0xff
-        movb $0xff, %ds:(%di)
+        mov %es:(%di), %al
+        cmpb 0xff, %al
 
-        # Does memory wraparound?
-        cmpb $0xff, %es:(%di)
-
-        # Restore ds:si
         pop %ax
-        movb %al, %ds:(%si)
+        mov %al, %ds:(%si)
 
-        # Restore es:di
         pop %ax
-        movb %al, %es:(%di)
+        mov %al, %es:(%di)
 
         mov $0, %ax
-
         je check_a20__exit
 
         mov $1, %ax
@@ -58,6 +54,33 @@ check_a20:
         pop %es
         pop %ds
         popf
+
+        ret
+.endfunc
+
+# Returns 1 if a20 is enabled, 0 if not but checks from protected mode for sanity
+.func check_a20_protected
+check_a20_protected:
+        push %edi
+        push %esi
+
+        mov $0x112345, %edi
+        mov $0x012345, %esi
+
+        mov %esi, (%esi)
+        mov %edi, (%edi)
+
+        cmpsd
+
+        mov $0, %ax
+        je check_a20_protected__exit
+
+        mov $1, %ax
+
+    check_a20_protected__exit:
+
+        pop %esi
+        pop %edi
 
         ret
 .endfunc
@@ -149,11 +172,14 @@ wait_8042_command:
 .global enable_a20
 .func enable_a20
 enable_a20:
+
+        # First check to see if A20 is enabled from protected mode
+        call check_a20_protected
+        cmp $0, %ax
+        jne enable_a20_protected__exit
+
         # Check if A20 is already enabled
         call check_a20
-
-        ret
-
         cmp $0, %ax
         jne enable_a20__exit
 
@@ -175,8 +201,23 @@ enable_a20:
         cmp $0, %ax
         jne enable_a20__exit
 
-        # TODO: Handle not having a A20 line (bad bad bad bad)
+        # Handle not having a A20 line (bad bad bad bad)
+        mov $0xAA20, %ax
+        cld
+        call kernel_cpu_panic
 
-        enable_a20__exit:
+    enable_a20__exit:
+
+        # Do one final check to see if A20 is enabled from protected mode
+        call check_a20_protected
+        cmp $0, %ax
+        jne enable_a20_protected__exit
+
+        mov $0xBA20, %ax
+        cld
+        call kernel_cpu_panic
+
+    enable_a20_protected__exit:
+
         ret
 .endfunc
