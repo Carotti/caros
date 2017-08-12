@@ -1,8 +1,9 @@
+#include <stdint.h>
 #include <stdio.h>
-#include <stdbool.h>
 
 #include <arch/i386/idt.h>
 #include <arch/i386/isrs.h>
+#include <arch/i386/regs.h>
 
 char* exception_message[] =
 {
@@ -39,15 +40,6 @@ char* exception_message[] =
     "Reserved",
     "Reserved"
 };
-
-// State of the stack after an ISR
-struct regs
-{
-    uint32_t gs, fs, es, ds;
-    uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
-    uint32_t int_no, err_code;
-    uint32_t eip, cs, eflags, useresp, ss;
-} __attribute__((packed));
 
 extern void isr0();
 extern void isr1();
@@ -118,9 +110,8 @@ void isrs_install()
     idt_set_gate(31, (uint32_t)isr31, 0x08, 0x8E);
 }
 
-void exception_handler(struct regs* sp)
+void isr_handler(struct isr_regs* sp)
 {
-    printf("Exception Occured");
+    printf("Exception Occured: ");
     printf(exception_message[sp->int_no]);
-    for(;;);
 }

@@ -11,4 +11,5 @@ void kernel_main()
 	terminal_initialize();
 	hal_initialise();
 	printf("Welcome to Caros!");
+	__asm("int $0");
 }

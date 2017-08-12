@@ -22,8 +22,5 @@ void idt_install()
     // Zero out the IDT
     memset(&idt, 0, sizeof(struct idt_entry) * IDT_SIZE);
 
-    // Install the ISRs into the IDT
-    isrs_install();
-
     idt_load();
 }

@@ -5,6 +5,9 @@
 
 #define IDT_SIZE 256
 
+#define IRQ_OFFSET 32
+#define IRQ_OFFSET_SLAVE 40
+
 struct idt_entry
 {
     uint16_t base_low;

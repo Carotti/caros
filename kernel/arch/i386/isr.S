@@ -250,7 +250,7 @@ isr31:
         push $31
         jmp isr_common_stub
 
-.extern exception_handler
+.extern isr_handler
 
 isr_common_stub:
         pusha
@@ -267,7 +267,7 @@ isr_common_stub:
         mov %ax, %gs
 
         push %esp
-        call exception_handler
+        call isr_handler
 
         pop %eax
         pop %gs
