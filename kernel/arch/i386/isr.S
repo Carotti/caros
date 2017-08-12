@@ -145,4 +145,137 @@ isr16:
         push $16
         jmp isr_common_stub
 
-# http://www.osdever.net/bkerndev/Docs/isrs.htm
+# ISR 17: Alignment Check Exception
+isr17:
+        cli
+        push $0
+        push $17
+        jmp isr_common_stub
+
+# ISR 18: Machine Check Exception
+isr18:
+        cli
+        push $0
+        push $18
+        jmp isr_common_stub
+
+# ISR 19: Reserved Exception
+isr19:
+        cli
+        push $0
+        push $19
+        jmp isr_common_stub
+
+# ISR 20: Reserved Exception
+isr20:
+        cli
+        push $0
+        push $20
+        jmp isr_common_stub
+
+# ISR 21: Reserved Exception
+isr21:
+        cli
+        push $0
+        push $21
+        jmp isr_common_stub
+
+# ISR 22: Reserved Exception
+isr22:
+        cli
+        push $0
+        push $22
+        jmp isr_common_stub
+
+# ISR 23: Reserved Exception
+isr23:
+        cli
+        push $0
+        push $23
+        jmp isr_common_stub
+
+# ISR 24: Reserved Exception
+isr24:
+        cli
+        push $0
+        push $24
+        jmp isr_common_stub
+
+# ISR 25: Reserved Exception
+isr25:
+        cli
+        push $0
+        push $25
+        jmp isr_common_stub
+
+# ISR 26: Reserved Exception
+isr26:
+        cli
+        push $0
+        push $26
+        jmp isr_common_stub
+
+# ISR 27: Reserved Exception
+isr27:
+        cli
+        push $0
+        push $27
+        jmp isr_common_stub
+
+# ISR 28: Reserved Exception
+isr28:
+        cli
+        push $0
+        push $28
+        jmp isr_common_stub
+
+# ISR 29: Reserved Exception
+isr29:
+        cli
+        push $0
+        push $29
+        jmp isr_common_stub
+
+# ISR 30: Reserved Exception
+isr30:
+        cli
+        push $0
+        push $30
+        jmp isr_common_stub
+
+# ISR 31: Reserved Exception
+isr31:
+        cli
+        push $0
+        push $31
+        jmp isr_common_stub
+
+.extern exception_handler
+
+isr_common_stub:
+        pusha
+        push %ds
+        push %es
+        push %fs
+        push %gs
+
+        # Kernel Data Segment Descriptor
+        mov $0x10, %ax
+        mov %ax, %ds
+        mov %ax, %es
+        mov %ax, %fs
+        mov %ax, %gs
+
+        push %esp
+        call exception_handler
+
+        pop %eax
+        pop %gs
+        pop %fs
+        pop %es
+        pop %ds
+        popa
+
+        # Clean up the stack
+        add $8, %esp
+        iret

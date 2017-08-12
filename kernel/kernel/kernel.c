@@ -6,10 +6,7 @@
 
 #include <string.h>
 
-// Call the architecture specific code for initialisation
-extern void init_arch();
-
-void kernel_main(void)
+void kernel_main()
 {
 	terminal_initialize();
 	hal_initialise();

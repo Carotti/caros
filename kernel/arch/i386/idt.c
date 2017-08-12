@@ -1,6 +1,7 @@
 #include <string.h>
 
 #include <arch/i386/idt.h>
+#include <arch/i386/isrs.h>
 
 void idt_set_gate(uint8_t i, uint32_t base, uint16_t sel, uint8_t flags)
 {
@@ -21,7 +22,8 @@ void idt_install()
     // Zero out the IDT
     memset(&idt, 0, sizeof(struct idt_entry) * IDT_SIZE);
 
-    //idt_set_gate();
+    // Install the ISRs into the IDT
+    isrs_install();
 
     idt_load();
 }
