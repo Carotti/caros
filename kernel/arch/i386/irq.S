@@ -173,13 +173,6 @@ irq_common_stub:
         add $8, %esp
         iret
 
-.global outportb
-outportb:
-        mov 4(%esp), %dx
-        mov 8(%esp), %al
-        out %al, %dx
-        ret
-
 .global enable_irqs
 enable_irqs:
         sti

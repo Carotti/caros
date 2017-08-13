@@ -3,6 +3,7 @@
 #include <arch/i386/irqs.h>
 #include <arch/i386/regs.h>
 #include <arch/i386/idt.h>
+#include <arch/i386/port.h>
 
 extern void irq0();
 extern void irq1();
@@ -20,8 +21,6 @@ extern void irq12();
 extern void irq13();
 extern void irq14();
 extern void irq15();
-
-extern void outportb(uint16_t port, uint8_t data);
 
 void (*irq_routines[IRQS_SIZE])(struct isr_regs *sp) =
 {

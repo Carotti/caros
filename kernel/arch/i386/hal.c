@@ -2,6 +2,7 @@
 #include <arch/i386/idt.h>
 #include <arch/i386/isrs.h>
 #include <arch/i386/irqs.h>
+#include <arch/i386/timer.h>
 
 void hal_initialise()
 {
@@ -12,4 +13,6 @@ void hal_initialise()
 
     irqs_install();
     enable_irqs();
+
+    timer_install();
 }

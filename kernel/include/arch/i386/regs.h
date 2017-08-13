@@ -1,6 +1,8 @@
 #ifndef _ARCH_I386_REGS_H
 #define _ARCH_I386_REGS_H
 
+#include <stdint.h>
+
 // Layout of the stack after an ISR
 struct isr_regs
 {
