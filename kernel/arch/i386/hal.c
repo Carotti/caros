@@ -13,6 +13,4 @@ void hal_initialise()
 
     irqs_install();
     enable_irqs();
-
-    timer_install();
 }

@@ -26,7 +26,4 @@
 #define PIT_16_BIT 0x0
 #define PIT_BCD 0x1
 
-void timer_set_frequency(int freq);
-void timer_install();
-
 #endif

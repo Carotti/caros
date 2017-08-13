@@ -5,8 +5,6 @@
 #include <kernel/tty.h>
 #include <kernel/hal.h>
 
-#include <arch/i386/port.h>
-
 #include <string.h>
 void kernel_main()
 {
