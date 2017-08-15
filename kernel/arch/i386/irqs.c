@@ -22,7 +22,7 @@ extern void irq13();
 extern void irq14();
 extern void irq15();
 
-void (*irq_routines[IRQS_SIZE])(struct isr_regs *sp) =
+void* irq_routines[IRQS_SIZE] =
 {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0

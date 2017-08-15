@@ -176,3 +176,4 @@ irq_common_stub:
 .global enable_irqs
 enable_irqs:
         sti
+		ret

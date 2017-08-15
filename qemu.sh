@@ -2,4 +2,4 @@
 set -e
 . ./iso.sh
 
-qemu-system-$(./target-triplet-to-arch.sh $HOST) -cdrom caros.iso
+qemu-system-$(./target-triplet-to-arch.sh $HOST) -cdrom caros.iso -soundhw pcspk

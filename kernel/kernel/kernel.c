@@ -5,7 +5,6 @@
 #include <kernel/tty.h>
 #include <kernel/hal.h>
 
-#include <string.h>
 void kernel_main()
 {
 	terminal_initialize();

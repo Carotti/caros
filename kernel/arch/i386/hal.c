@@ -4,6 +4,8 @@
 #include <arch/i386/irqs.h>
 #include <arch/i386/timer.h>
 
+extern void keyboard_install();
+
 void hal_initialise()
 {
     gdt_install();
@@ -13,4 +15,7 @@ void hal_initialise()
 
     irqs_install();
     enable_irqs();
+
+    timer_set_frequency(100);
+    timer_install();
 }
