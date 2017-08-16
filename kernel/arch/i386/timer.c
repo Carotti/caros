@@ -42,8 +42,8 @@ void timer_install()
 
 void timer_set_frequency(int hz)
 {
-    int divisor = 1193180 / hz;
-    outportb(0x43, 0x36);
-    outportb(0x40, divisor & 0xFF);
-    outportb(0x40, divisor >> 8);
+    int divisor = PIT_FREQUENCY / hz;
+    outportb(PIT_COMMAND_REG, 0x36);
+    outportb(PIT_COUNTER_1, divisor & 0xFF);
+    outportb(PIT_COUNTER_1, divisor >> 8);
 }
