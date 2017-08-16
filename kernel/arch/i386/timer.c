@@ -1,5 +1,6 @@
 #include <arch/i386/timer.h>
 #include <arch/i386/irqs.h>
+#include <arch/i386/port.h>
 
 #include <stdio.h>
 
@@ -28,15 +29,18 @@
 #define PIT_16_BIT 0x0
 #define PIT_BCD 0x1
 
-int timer_ticks = 0;
+void (*timer_tick)() = 0;
 
-void timer_handler(struct isr_regs* r)
+
+void timer_handler(struct isr_regs* sp)
 {
-    //if (timer_ticks++ % 100 == 0) printf("Timer ticked");
+    (void)sp;
+    if (timer_tick) timer_tick();
 }
 
-void timer_install()
+void timer_install(void (*handler)())
 {
+    timer_tick = handler;
     irqs_install_handler(0, timer_handler);
 }
 

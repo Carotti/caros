@@ -3,8 +3,13 @@
 
 #include <arch/i386/regs.h>
 #include <arch/i386/irqs.h>
+#include <arch/i386/port.h>
 
 #define KBD_DATA_BUF 0x60
+
+#define KBD_KEY_RELEASED_MASK 0x80
+
+#define KBD_IRQ_INDEX 1
 
 uint8_t kbdus[128] =
 {
@@ -48,11 +53,13 @@ uint8_t kbdus[128] =
 
 void keyboard_handler(struct isr_regs* sp)
 {
+    (void)sp;
+
     uint8_t scancode;
 
     scancode = inportb(KBD_DATA_BUF);
 
-    if (scancode & 0x80) {
+    if (scancode & KBD_KEY_RELEASED_MASK) {
         // key was just released
     } else {
         // key was just pressed
@@ -62,5 +69,5 @@ void keyboard_handler(struct isr_regs* sp)
 
 void keyboard_install()
 {
-    irqs_install_handler(1, keyboard_handler);
+    irqs_install_handler(KBD_IRQ_INDEX, keyboard_handler);
 }

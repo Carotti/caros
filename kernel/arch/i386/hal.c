@@ -2,10 +2,7 @@
 #include <arch/i386/idt.h>
 #include <arch/i386/isrs.h>
 #include <arch/i386/irqs.h>
-#include <arch/i386/timer.h>
 #include <arch/i386/kbd.h>
-
-extern void keyboard_install();
 
 void hal_initialise()
 {
@@ -16,9 +13,4 @@ void hal_initialise()
 
     irqs_install();
     enable_irqs();
-
-    timer_set_frequency(100);
-    timer_install();
-
-    keyboard_install();
 }
