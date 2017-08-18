@@ -23,5 +23,7 @@ void kernel_main()
 
 	keyboard_install(kbd_key_pressed, kbd_key_released);
 
-	printf("Welcome to Caros!");
+	printf("Welcome to Caros!\n");
+	printf("Line2\n");
+	printf("Line3\n");
 }

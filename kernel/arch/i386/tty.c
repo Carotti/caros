@@ -5,7 +5,7 @@
 
 #include <kernel/tty.h>
 
-#include "vga.h"
+#include <arch/i386/vga.h>
 
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
@@ -39,12 +39,22 @@ void terminal_putentryat(unsigned char c, uint8_t color, size_t x, size_t y) {
 }
 
 void terminal_putchar(char c) {
+
 	unsigned char uc = c;
-	terminal_putentryat(uc, terminal_color, terminal_column, terminal_row);
+	if (uc == '\n') {
+		terminal_row++;
+		terminal_column = -1;
+	} else {
+		terminal_putentryat(uc, terminal_color, terminal_column, terminal_row);
+	}
 	if (++terminal_column == VGA_WIDTH) {
 		terminal_column = 0;
-		if (++terminal_row == VGA_HEIGHT)
-			terminal_row = 0;
+		terminal_row++;
+	}
+
+	if (terminal_row == VGA_HEIGHT) {
+		terminal_row--;
+		shift_rows_up();
 	}
 }
 
@@ -55,4 +65,10 @@ void terminal_write(const char* data, size_t size) {
 
 void terminal_writestring(const char* data) {
 	terminal_write(data, strlen(data));
+}
+
+void shift_rows_up() {
+	for (int i = 0; i < VGA_HEIGHT; i++) {
+		memcpy(&terminal_buffer[i * VGA_WIDTH], &terminal_buffer[(i + 1) * VGA_WIDTH], VGA_WIDTH);
+	}
 }
