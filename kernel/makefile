@@ -31,6 +31,7 @@ KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
 kernel/kernel.o \
 kernel/kbd.o \
+kernel/snake.o \
 
 OBJS=\
 $(ARCHDIR)/crti.o \
