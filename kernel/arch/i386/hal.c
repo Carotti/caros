@@ -3,6 +3,7 @@
 #include <arch/i386/isrs.h>
 #include <arch/i386/irqs.h>
 #include <arch/i386/kbd.h>
+#include <arch/i386/paging.h>
 
 void hal_initialise()
 {
@@ -13,4 +14,6 @@ void hal_initialise()
 
     irqs_install();
     enable_irqs();
+
+    paging_init();
 }
